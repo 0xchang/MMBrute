@@ -12,14 +12,14 @@ public class Ntlmutils {
     }
 
     public static String v1encrypt(String password) {
-        try{
-            byte[] unicodePwd = password.toUpperCase()
-                    .getBytes(StandardCharsets.UTF_16LE);
+        try {
+            // 确保正确处理所有字符类型
+            byte[] unicodePwd = password.getBytes(StandardCharsets.UTF_16LE);
             MessageDigest md = MessageDigest.getInstance("MD4");
             byte[] hash = md.digest(unicodePwd);
             return bytesToHex(hash);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return "None";
     }
@@ -37,8 +37,8 @@ public class Ntlmutils {
     }
 
     public static void main(String[] args) {
-        System.out.println(Ntlmutils.v1encrypt("123456"));
-        System.out.println(verifyntlmv1("32ed87bdb5fdc5e9cba88547376818d4","1234568"));
+        System.out.println(Ntlmutils.v1encrypt("123456789@a"));
+        System.out.println(verifyntlmv1("20B2A7351C899FD8E230CAAD9DD9B994","123456789a"));
     }
 
 }
